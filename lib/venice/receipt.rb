@@ -59,7 +59,8 @@ module Venice
         original_application_version: @original_application_version,
         creation_date: (@creation_date.httpdate rescue nil),
         expiration_date: (@expiration_date.httpdate rescue nil),
-        in_app: @in_app.map{ |iap| iap.to_h }
+        in_app: @in_app.map{ |iap| iap.to_h },
+        latest_receipt_info: @latest_receipt_info.map{ |iap| iap.to_h }
       }
     end
     alias_method :to_h, :to_hash
