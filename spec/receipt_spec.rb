@@ -36,6 +36,22 @@ describe Venice::Receipt do
               "expires_date" => "2014-06-28 14:47:53 Etc/GMT",
               "is_trial_period" => "false"
             }
+          ],
+          "latest_receipt_info" => [
+            {
+              "quantity" => "1",
+              "product_id" => "com.foo.product1",
+              "transaction_id" => "1000000070107111",
+              "original_transaction_id" => "1000000061051111",
+              "purchase_date" => "2014-05-28 14:47:53 Etc/GMT",
+              "purchase_date_ms" => "1401288473000",
+              "purchase_date_pst" => "2014-05-28 07:47:53 America/Los_Angeles",
+              "original_purchase_date" => "2014-05-28 14:47:53 Etc/GMT",
+              "original_purchase_date_ms" => "1401288473000",
+              "original_purchase_date_pst" => "2014-05-28 07:47:53 America/Los_Angeles",
+              "expires_date" => "2014-06-28 14:47:53 Etc/GMT",
+              "is_trial_period" => "false"
+            }
           ]
         }
       }
@@ -49,6 +65,8 @@ describe Venice::Receipt do
     its(:original_application_version) { "1" }
     its(:expiration_date) { should be_instance_of DateTime }
     its(:creation_date) { should be_instance_of DateTime }
+    its(:latest_receipt_info) { should be_instance_of Array }
+    its('latest_receipt_info.length') { should eq(1) }
 
     describe "#verify!" do
 

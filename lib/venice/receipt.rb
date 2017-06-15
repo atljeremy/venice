@@ -26,7 +26,8 @@ module Venice
     # Original json response from AppStore
     attr_reader :original_json_response
 
-    attr_accessor :latest_receipt_info
+    # Undocumented, but will hold some receipts for payments that may not yet be in-app (i.e. subscription payments triggered by the backend)
+    attr_reader :latest_receipt_info
     
     def initialize(attributes = {})
       @original_json_response = attributes['original_json_response']
@@ -44,6 +45,11 @@ module Venice
       attributes['in_app'].each do |iap_attributes|
         @in_app << InAppReceipt.new(iap_attributes)
       end if attributes['in_app']
+
+      @latest_receipt_info = []
+      attributes['latest_receipt_info'].each do |iap_attributes|
+        @latest_receipt_info << InAppReceipt.new(iap_attributes)
+      end if attributes['latest_receipt_info']
     end
 
     def to_hash
@@ -53,7 +59,8 @@ module Venice
         original_application_version: @original_application_version,
         creation_date: (@creation_date.httpdate rescue nil),
         expiration_date: (@expiration_date.httpdate rescue nil),
-        in_app: @in_app.map{ |iap| iap.to_h }
+        in_app: @in_app.map{ |iap| iap.to_h },
+        latest_receipt_info: @latest_receipt_info.map{ |iap| iap.to_h }
       }
     end
     alias_method :to_h, :to_hash
