@@ -38,8 +38,12 @@ module Venice
       @shared_secret = options[:shared_secret] if options[:shared_secret]
 
       json = json_response_from_verifying_data(data)
-      status, receipt_attributes = json['status'].to_i, json['receipt']
-      receipt_attributes['original_json_response'] = json if receipt_attributes
+      status, receipt_attributes, environment = json['status'].to_i, json['receipt'], json['environment']
+
+      if receipt_attributes
+        receipt_attributes['original_json_response'] = json
+        receipt_attributes['environment'] = environment
+      end
 
       case status
       when 0, 21006
@@ -59,7 +63,8 @@ module Venice
 
         return receipt
       else
-        raise VerificationError.new(status)
+        retryable = json['is-retryable']
+        raise VerificationError.new(status, retryable: retryable)
       end
     end
 

@@ -44,6 +44,7 @@ describe Venice::Receipt do
     subject { Venice::Receipt.new(response['receipt']) }
 
     its(:bundle_id) { "com.foo.bar" }
+    its(:environment) { 'Production' }
     its(:application_version) { "2" }
     its(:in_app) { should be_instance_of Array }
     its(:original_application_version) { "1" }

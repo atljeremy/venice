@@ -26,14 +26,16 @@ module Venice
     # Original json response from AppStore
     attr_reader :original_json_response
 
+    attr_accessor :environment
     attr_accessor :latest_receipt_info
     
     def initialize(attributes = {})
       @original_json_response = attributes['original_json_response']
+      @environment = attributes['environment']
       @bundle_id = attributes['bundle_id']
       @application_version = attributes['application_version']
       @original_application_version = attributes['original_application_version']
-      
+
       expiration_date = attributes['expiration_date']
       @expiration_date = DateTime.parse(expiration_date) if expiration_date
       
